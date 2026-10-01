@@ -60,6 +60,7 @@ See `docs/plans/` for the detailed execution plan for this phase.
 ## Repo structure
 
 - `docs/plans/` — execution plans, one per phase/feature. Check here for the current plan before starting implementation work.
+- `docs/deploy/` — live infrastructure inventory: every AWS resource actually provisioned (IDs, specs) and its estimated monthly cost. Update this whenever infrastructure changes — it should always reflect what's really running, not what was originally planned.
 - `app/` — Next.js App Router. `page.tsx` assembles the landing page from `components/sections/`; `app/api/waitlist/` holds the signup + CSV export routes.
 - `components/` — `sections/` (the 8 court-journey zones + their visuals), `waitlist/` (context, button, modal — the join-waitlist flow used across the page), plus shared pieces (`CourtBall`, `CourtLineDivider`, `CourtBackdrop`, `Reveal`, `StickyNav`, `Footer`).
 - `lib/db.ts` — SQLite (`better-sqlite3`) connection singleton for waitlist storage.
