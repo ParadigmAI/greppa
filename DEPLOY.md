@@ -32,11 +32,20 @@ cp .env.example .env
 # edit .env: set WAITLIST_EXPORT_PASSWORD to a real value, and
 # GMAIL_USER / GMAIL_APP_PASSWORD if you want signup notification emails
 # (see README.md — App Password, not the account's regular password)
+
+# The container runs as uid 1001 (see Dockerfile). On a brand new clone the
+# bind-mounted ./data directory doesn't exist yet, so Docker auto-creates it
+# as root — which the app then can't write into ("unable to open database
+# file" / SQLITE_CANTOPEN). Pre-create it with the right owner first:
+mkdir -p data
+sudo chown 1001:1001 data
+
 docker compose up -d --build
 ```
 
-The app is now listening on port 3000 on the instance. Waitlist signups persist
-to `./data/waitlist.db` on the host via the mounted volume, so they survive
+The app is now listening on port 3000 (or whatever `APP_PORT` is set to) on
+the instance. Waitlist signups persist to `./data/waitlist.db` on the host
+via the mounted volume, so they survive
 `docker compose down` / container rebuilds.
 
 ## Pointing a custom domain at it
