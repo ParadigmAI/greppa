@@ -1,6 +1,6 @@
 # Plan: Greppa Waitlist Landing Page (Phase 1)
 
-Status: Draft → ready to build
+Status: Built — verified locally (dev + production build + Docker). Not yet deployed to EC2.
 Owner: miranthaj@gmail.com
 Related: [[CLAUDE.md]] for full product context and brand direction
 
@@ -92,20 +92,21 @@ Each zone shares a consistent visual grammar (court-blue background with subtle 
 
 ## 8. Build checklist
 
-- [ ] Scaffold Next.js + TypeScript + Tailwind project
-- [ ] Set up brand tokens (colors, fonts) in Tailwind config
-- [ ] Build static section shells for all 8 zones with placeholder copy
-- [ ] Implement scroll-tied ball animation + court-line transitions (desktop first, then mobile-simplified pass)
-- [ ] Write final copy for each zone
-- [ ] Build waitlist modal/drawer component (client-side validation)
-- [ ] Build `POST /api/waitlist` route + SQLite schema/migration
-- [ ] Build `GET /api/waitlist/export` (basic-auth protected CSV export)
-- [ ] Add `prefers-reduced-motion` fallback pass
-- [ ] Responsive/mobile QA pass
-- [ ] Write `Dockerfile` (standalone output) + `docker-compose.yml` + `.env.example`
-- [ ] Local Docker build/run smoke test (`docker compose up --build`, verify form submits and persists across container restart)
-- [ ] Write `DEPLOY.md` with the exact EC2 clone/build/run/DNS steps
-- [ ] Update [[CLAUDE.md]] status log once shipped
+- [x] Scaffold Next.js + TypeScript + Tailwind project (Next.js 16, Turbopack, Tailwind v4)
+- [x] Set up brand tokens (colors, fonts) — court blue / luminous green / court lines in `app/globals.css`; Bebas Neue (display) + Inter (body) via self-hosted `next/font/google`
+- [x] Build section shells for all 8 zones with real copy (Hero, Creation, Management, Players, Facilities, Roadmap, Final CTA, Footer)
+- [x] Implement scroll-tied ball animation (`CourtBall`) + animated court-line dividers (`CourtLineDivider`) between zones
+- [x] Write copy for each zone (first pass — good enough to ship, revisit anytime)
+- [x] Build waitlist modal component (`components/waitlist/`) with client-side + server-side validation
+- [x] Build `POST /api/waitlist` route + SQLite schema (auto-created on first run)
+- [x] Build `GET /api/waitlist/export` (basic-auth protected CSV export)
+- [x] `prefers-reduced-motion` fallback: the traveling ball is hidden entirely; entrance/reveal animations drop their movement and shorten duration (see `useReducedMotion` in `CourtBall`, `Hero`, `Reveal`)
+- [x] Responsive pass: mobile layout stacks zones, ball animation adapts its horizontal range on narrow screens
+- [x] Write `Dockerfile` (standalone output, multi-stage Alpine build) + `docker-compose.yml` + `.env.example`
+- [x] Local Docker build/run smoke test — image builds, page serves, waitlist POST + CSV export work, data persists across `docker restart` via the mounted `./data` volume
+- [x] Write `DEPLOY.md` with the exact EC2 clone/build/run/DNS steps
+- [x] Update [[CLAUDE.md]] status log
+- [ ] Deploy to the actual EC2 instance + point custom domain (manual step for the user)
 
 ## 9. Open decisions (flagged, not blocking initial build)
 
