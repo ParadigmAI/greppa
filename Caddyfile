@@ -1,0 +1,10 @@
+greppa.org, www.greppa.org {
+	reverse_proxy web:3000
+}
+
+# Fallback so the bare Elastic IP keeps serving plain HTTP (no cert is
+# possible for a raw IP via Let's Encrypt) — useful for quick checks and as
+# a safety net if DNS ever points somewhere unexpected.
+:80 {
+	reverse_proxy web:3000
+}

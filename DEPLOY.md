@@ -1,8 +1,14 @@
 # Deploying to EC2
 
-The landing page ships as a Docker container. Deployment is manual and direct:
-clone the repo onto an EC2 instance, build the image there, and run it with
-Docker Compose. No CI/CD pipeline at this stage.
+The landing page ships as two Docker Compose services: the app itself (`web`)
+and [Caddy](https://caddyserver.com/) in front of it as a reverse proxy,
+handling automatic HTTPS via Let's Encrypt. Deployment is manual and direct:
+clone the repo onto an EC2 instance and run `docker compose up`. No CI/CD
+pipeline at this stage.
+
+This describes the general procedure. For the specifics of the actual running
+deployment (instance ID, IP, domain, resource sizing), see
+[`docs/deploy/01-ec2-resources-and-cost.md`](./docs/deploy/01-ec2-resources-and-cost.md).
 
 ## Prerequisites on the EC2 instance
 
@@ -10,7 +16,7 @@ Docker Compose. No CI/CD pipeline at this stage.
 
   ```bash
   # Amazon Linux 2023
-  sudo dnf install -y docker
+  sudo dnf install -y docker git
   sudo systemctl enable --now docker
   sudo usermod -aG docker "$USER"   # log out/in for this to take effect
 
@@ -20,8 +26,18 @@ Docker Compose. No CI/CD pipeline at this stage.
   sudo chmod +x /usr/libexec/docker/cli-plugins/docker-compose
   ```
 
-- A security group inbound rule allowing traffic on port 80/443 (and 22 for SSH).
-- Git installed (`sudo dnf install -y git`).
+- A security group inbound rule allowing traffic on port 80/443 (and 22 for SSH,
+  ideally restricted to a known IP rather than open to the world).
+- On an instance with 1 GB RAM or less (e.g. `t3.micro`), add a swapfile first —
+  `next build` inside the Docker build can otherwise get OOM-killed:
+
+  ```bash
+  sudo dd if=/dev/zero of=/swapfile bs=1M count=2048
+  sudo chmod 600 /swapfile
+  sudo mkswap /swapfile
+  sudo swapon /swapfile
+  echo '/swapfile swap swap defaults 0 0' | sudo tee -a /etc/fstab
+  ```
 
 ## First deploy
 
@@ -43,39 +59,38 @@ sudo chown 1001:1001 data
 docker compose up -d --build
 ```
 
-The app is now listening on port 3000 (or whatever `APP_PORT` is set to) on
-the instance. Waitlist signups persist to `./data/waitlist.db` on the host
-via the mounted volume, so they survive
-`docker compose down` / container rebuilds.
+Caddy (the `caddy` service) is what's actually bound to ports 80/443 on the
+host; the `web` service isn't published to the host at all — Caddy reaches it
+over the Compose network by service name (`web:3000`). Waitlist signups
+persist to `./data/waitlist.db` on the host via the mounted volume, so they
+survive `docker compose down` / container rebuilds.
 
 ## Pointing a custom domain at it
 
 1. Allocate an Elastic IP and associate it with the instance, so the public IP
    doesn't change if the instance is stopped/started.
-2. Create an `A` record for your domain pointing at that Elastic IP.
-3. Put a reverse proxy in front of the container to terminate TLS before any
-   real traffic hits it — waitlist emails should never be submitted over plain
-   HTTP. The simplest option is [Caddy](https://caddyserver.com/), which
-   handles Let's Encrypt certificates automatically:
-
-   ```bash
-   sudo dnf install -y caddy   # or follow Caddy's install docs for your distro
-   ```
-
-   Minimal `/etc/caddy/Caddyfile`:
+2. At your domain's registrar, add two `A` records pointing at that Elastic IP:
+   one for the bare domain (`@`) and one for `www`.
+3. Edit the `Caddyfile` in this repo so the first site block lists your actual
+   domain(s):
 
    ```
-   greppa.app {
-     reverse_proxy localhost:3000
+   yourdomain.com, www.yourdomain.com {
+     reverse_proxy web:3000
    }
    ```
 
-   ```bash
-   sudo systemctl enable --now caddy
-   ```
-
-   Open port 443 (and keep 80 open — Caddy uses it for the ACME challenge) in
-   the instance's security group.
+   The second block (`:80 { reverse_proxy web:3000 }`) is a deliberate
+   fallback that keeps the bare IP serving plain HTTP — useful for quick
+   checks, and because Let's Encrypt can't issue a certificate for a raw IP
+   address anyway.
+4. `git push`, then on the instance: `git pull && docker compose up -d --build`.
+   Caddy requests and renews the certificate automatically the first time it
+   sees traffic for that domain — no manual certbot steps. Give DNS a few
+   minutes (occasionally longer) to propagate before expecting the cert to
+   issue; Caddy retries automatically if it isn't ready yet.
+5. Verify: `curl -I https://yourdomain.com` should return `200`, and
+   `curl -I http://yourdomain.com` should return a `3xx` redirect to HTTPS.
 
 ## Redeploying after changes
 
@@ -85,18 +100,21 @@ git pull
 docker compose up -d --build
 ```
 
-This rebuilds the image and replaces the running container. The mounted
-`./data` volume is untouched, so waitlist signups are preserved.
+This rebuilds the `web` image and replaces the running container (Caddy is
+untouched unless the `Caddyfile` changed). The mounted `./data` volume and
+Caddy's certificate storage (`caddy_data` volume) are both untouched, so
+waitlist signups and the TLS certificate are preserved across redeploys.
 
 ## Exporting waitlist signups
 
 ```bash
-curl -u x:<WAITLIST_EXPORT_PASSWORD> https://greppa.app/api/waitlist/export -o waitlist.csv
+curl -u x:<WAITLIST_EXPORT_PASSWORD> https://yourdomain.com/api/waitlist/export -o waitlist.csv
 ```
 
 ## Logs / troubleshooting
 
 ```bash
 docker compose logs -f web
+docker compose logs -f caddy   # certificate issuance / renewal issues show up here
 docker compose ps
 ```

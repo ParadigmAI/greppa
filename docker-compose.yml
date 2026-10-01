@@ -3,8 +3,8 @@ services:
     build: .
     image: greppa-landing:latest
     restart: unless-stopped
-    ports:
-      - "${APP_PORT:-3000}:3000"
+    expose:
+      - "3000"
     environment:
       - WAITLIST_EXPORT_PASSWORD=${WAITLIST_EXPORT_PASSWORD:?set WAITLIST_EXPORT_PASSWORD in .env}
       - GMAIL_USER=${GMAIL_USER:-}
@@ -12,3 +12,20 @@ services:
       - NOTIFY_EMAIL=${NOTIFY_EMAIL:-}
     volumes:
       - ./data:/app/data
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+
+volumes:
+  caddy_data:
+  caddy_config:
