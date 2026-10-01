@@ -48,7 +48,7 @@ export function PublicPageVisual() {
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-2 rounded-full border border-cream-dim/30 bg-white/5 px-4 py-2 text-xs text-cream-dim sm:text-sm">
           <span className="h-2 w-2 shrink-0 rounded-full bg-lime" />
-          greppa.app/fall-smash-open
+          greppa.org/fall-smash-open
         </div>
 
         <div className="rounded-2xl border border-cream-dim/20 bg-navy/60 p-4">

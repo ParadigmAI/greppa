@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "Greppa — Tournament day, without the tournament headache",
   description:
     "Greppa is the pickleball tournament platform that starts with a conversation. Create a tournament by chatting it into existence, then manage players, courts, and facilities from one place. Join the waitlist.",
-  metadataBase: new URL("https://greppa.app"),
+  metadataBase: new URL("https://greppa.org"),
   openGraph: {
     title: "Greppa — Pickleball tournaments, created by chat",
     description:

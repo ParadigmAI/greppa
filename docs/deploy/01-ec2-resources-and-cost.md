@@ -1,6 +1,6 @@
 # AWS resources — Phase 1 EC2 deployment
 
-What's actually running in AWS for `greppa.app`, and what it costs. Written
+What's actually running in AWS for `greppa.org`, and what it costs. Written
 2026-10-01, right after the first live deploy; updated the same day after
 resizing from `t3.small` to `t3.micro` (see `CLAUDE.md`'s status log for the
 full narrative, including the bugs hit along the way).
@@ -8,7 +8,7 @@ full narrative, including the bugs hit along the way).
 - **Account:** `741375879015`
 - **IAM user used to provision:** `greppa` (policy: `AmazonEC2FullAccess` only — no SSM, which is why access is via SSH rather than Session Manager)
 - **Region:** `us-east-1` (N. Virginia)
-- **Live URL:** `http://100.63.10.70/` (plain HTTP — no domain or TLS yet)
+- **Live URL:** `https://greppa.org/` (HTTPS via Caddy + Let's Encrypt, auto-renewing). `http://greppa.org/` redirects to HTTPS. The bare Elastic IP (`http://100.63.10.70/`) still serves plain HTTP as a fallback — see the Caddy entry below.
 
 ## Resource inventory
 
@@ -21,11 +21,11 @@ full narrative, including the bugs hit along the way).
 | Security group | `sg-050c6930c1486c37b` (`greppa-web-sg`) | 22/tcp from the deploying machine's IP only; 80/tcp and 443/tcp from `0.0.0.0/0` | Firewall — SSH locked down, web ports open since this is a public site |
 | Key pair | `greppa-deploy` (`key-073911725e4578c03`) | ed25519 | SSH access to the instance. Private half lives at `~/.ssh/greppa-deploy.pem` on the operator's machine — **not** in this repo |
 | VPC / subnet | `vpc-0d0856f7e766d8760` / `subnet-035c88661b67bceed` | Default VPC, default public subnet | No new networking was created — this deploy reuses the account's default VPC |
+| Caddy (Docker Compose service, not AWS) | `caddy` service in `docker-compose.yml`, image `caddy:2-alpine` | Bound to 80/443 on the instance; reverse-proxies to the `web` container over the Compose network | TLS termination — automatic certificate issuance/renewal via Let's Encrypt. Certs persist in the `caddy_data` Docker volume (on the EBS volume above) |
 
-Not an AWS resource, but adjacent: GitHub access from the instance uses a
-dedicated SSH deploy key generated *on the instance itself* (the private key
-never left it) and registered as a **read-only** Deploy Key on the
-`miranthajayatilake/greppa` repo — not a personal access token.
+**Not AWS resources, but part of this deploy:**
+- **Domain:** `greppa.org`, registered at **GoDaddy** (not AWS) — 2026-10-01. DNS is also managed at GoDaddy: two `A` records (`@` and `www`) point at the Elastic IP above. No Route 53 hosted zone was created; DNS and registration both live at GoDaddy.
+- **GitHub access** from the instance uses a dedicated SSH deploy key generated *on the instance itself* (the private key never left it) and registered as a **read-only** Deploy Key on the `miranthajayatilake/greppa` repo — not a personal access token.
 
 ## Estimated monthly cost
 
@@ -67,9 +67,13 @@ A few other things that would change this number:
   than a Phase 1 landing page.
 - **Traffic beyond 100 GB/month out** adds $0.09/GB — unlikely for a waitlist
   page unless it goes viral.
-- **TLS/custom domain** (Caddy, per `DEPLOY.md`) adds no AWS cost by itself —
-  Let's Encrypt certificates are free. A Route 53 hosted zone, if DNS also
-  moves to AWS, is $0.50/month per zone plus negligible query cost.
+- **TLS itself** adds no AWS cost — Let's Encrypt certificates are free, and
+  Caddy runs as just another container on the existing instance (no new AWS
+  resource). A Route 53 hosted zone, if DNS ever moves to AWS instead of
+  GoDaddy, would add $0.50/month plus negligible query cost.
+- **The domain itself isn't in the AWS cost above** — `greppa.org` is a
+  separate annual charge from GoDaddy (not tracked here; check the GoDaddy
+  account for the renewal price and date).
 
 ## If you want to tear this down
 
