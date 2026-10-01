@@ -1,4 +1,8 @@
 greppa.org, www.greppa.org {
+	log {
+		output stdout
+		format console
+	}
 	reverse_proxy web:3000
 }
 
@@ -6,5 +10,9 @@ greppa.org, www.greppa.org {
 # possible for a raw IP via Let's Encrypt) — useful for quick checks and as
 # a safety net if DNS ever points somewhere unexpected.
 :80 {
+	log {
+		output stdout
+		format console
+	}
 	reverse_proxy web:3000
 }
