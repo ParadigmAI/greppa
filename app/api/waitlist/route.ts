@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
+import { sendWaitlistNotification } from "@/lib/mailer";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -26,6 +27,8 @@ export async function POST(request: Request) {
       `INSERT INTO waitlist (email, name) VALUES (?, ?)
        ON CONFLICT(email) DO UPDATE SET name = COALESCE(excluded.name, waitlist.name)`
     ).run(normalizedEmail, normalizedName);
+
+    await sendWaitlistNotification({ email: normalizedEmail, name: normalizedName });
 
     return NextResponse.json({ ok: true });
   } catch (error) {

@@ -31,6 +31,13 @@ Copy `.env.example` to `.env.local` for local dev (or `.env` for Docker):
   or `curl -u x:<password> .../api/waitlist/export`).
 - `WAITLIST_DB_PATH` — override the SQLite file location (defaults to
   `./data/waitlist.db`; the Docker image sets this to `/app/data/waitlist.db`).
+- `GMAIL_USER` / `GMAIL_APP_PASSWORD` — Gmail SMTP credentials used to email a
+  notification on each waitlist signup. `GMAIL_APP_PASSWORD` is a 16-character
+  [App Password](https://myaccount.google.com/apppasswords) (not the account's
+  regular password; requires 2-Step Verification). Left unset, signups still
+  work — the app just skips sending and logs a warning.
+- `NOTIFY_EMAIL` — who receives the signup notification. Defaults to
+  `GMAIL_USER` if unset.
 
 ## Production build
 

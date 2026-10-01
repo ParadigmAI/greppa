@@ -29,7 +29,9 @@ Docker Compose. No CI/CD pipeline at this stage.
 git clone <this-repo-url> greppa
 cd greppa
 cp .env.example .env
-# edit .env: set WAITLIST_EXPORT_PASSWORD to a real value
+# edit .env: set WAITLIST_EXPORT_PASSWORD to a real value, and
+# GMAIL_USER / GMAIL_APP_PASSWORD if you want signup notification emails
+# (see README.md — App Password, not the account's regular password)
 docker compose up -d --build
 ```
 
