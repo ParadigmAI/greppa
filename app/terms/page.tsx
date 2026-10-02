@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 
@@ -44,9 +45,9 @@ export default function TermsPage() {
               Joining the waitlist is free and doesn&apos;t create any contractual obligation
               between you and Greppa. We&apos;ll use the email address you provide to contact you
               about the product&apos;s availability and updates — see our{" "}
-              <a href="/privacy" className="underline hover:text-lime">
+              <Link href="/privacy" className="underline hover:text-lime">
                 Privacy Policy
-              </a>{" "}
+              </Link>{" "}
               for details.
             </p>
           </Section>
