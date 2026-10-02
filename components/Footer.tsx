@@ -12,6 +12,18 @@ export function Footer() {
           <span>Greppa &mdash; pickleball, organized</span>
           <span>&copy; {new Date().getFullYear()} Greppa. All rights reserved.</span>
         </div>
+
+        <div className="mt-4 flex flex-col items-center justify-between gap-2 text-[11px] text-cream-dim/50 sm:flex-row">
+          <span>Greppa, 8415 Pulsar Pl Ste 300, Columbus, OH 43240-4032, United States</span>
+          <div className="flex gap-4">
+            <a href="/privacy" className="transition hover:text-lime">
+              Privacy Policy
+            </a>
+            <a href="/terms" className="transition hover:text-lime">
+              Terms
+            </a>
+          </div>
+        </div>
       </div>
     </footer>
   );
