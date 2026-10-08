@@ -5,7 +5,7 @@ const VIDEO_ID = "NwjgDg1nfiw";
 export function Hero() {
   return (
     <section id="top" className="relative flex min-h-[60svh] items-center bg-navy px-[7%] py-24 sm:py-28">
-      <div className="grid w-full items-center gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-14">
+      <div className="grid w-full items-center gap-10 xl:grid-cols-[1fr_1.1fr] xl:gap-14">
         <div className="max-w-2xl">
           <p className="mb-3 font-serif text-xl font-bold tracking-[-0.02em] text-lime sm:text-2xl">
             Meet Greppa
