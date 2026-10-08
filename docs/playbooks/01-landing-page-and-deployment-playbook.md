@@ -384,3 +384,4 @@ simpler path that replaced the EC2/Docker setup in the project this playbook cam
   `CNAME` for `www` to `<owner>.github.io`. Enable "Enforce HTTPS" once the cert is issued.
   Don't touch MX/SPF/DKIM/DMARC records when editing apex records.
 - Clear `.next/` after deleting routes, or stale generated types fail the type-check.
+- If GitHub never issues the HTTPS cert (the Pages `/health` endpoint returns an empty object and `https_enforced=true` keeps failing with "certificate does not exist"), remove and re-add the custom domain via the Pages API to kick off issuance, then retry enforcement in a loop. Check authoritative nameservers (`dig @<ns>`) to prove DNS is right; local resolvers may keep serving the old IP for a while.
