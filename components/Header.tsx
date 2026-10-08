@@ -5,10 +5,11 @@ import { useState } from "react";
 import { WaitlistButton } from "./waitlist/WaitlistButton";
 
 const links = [
-  { href: "/#creation", label: "Tournament Creation" },
-  { href: "/#publish", label: "Registration" },
-  { href: "/#management", label: "Tournament Management" },
-  { href: "/#facilities", label: "Facilities" },
+  { href: "/#create", label: "Create" },
+  { href: "/#page", label: "Public page" },
+  { href: "/#registration", label: "Registration" },
+  { href: "/#draws", label: "Brackets" },
+  { href: "/#schedule", label: "Schedule" },
 ];
 
 export function Header() {

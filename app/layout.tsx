@@ -10,24 +10,24 @@ const sansFont = Schibsted_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Greppa — Tournament day, without the tournament headache",
+  title: "Greppa — Run your pickleball tournament from WhatsApp",
   description:
-    "Greppa is the pickleball tournament platform that starts with a conversation. Create a tournament by chatting it into existence, then manage players, courts, and facilities from one place. Join the waitlist.",
+    "Greppa runs your pickleball tournament from a WhatsApp chat: set it up by texting, share a public registration page, and get pools, brackets and a court schedule built for you. Join the waitlist.",
   metadataBase: new URL("https://greppa.org"),
   other: {
     "facebook-domain-verification": "8e03e8hk7r74eesfpvpzvkr102n992",
   },
   openGraph: {
-    title: "Greppa — Pickleball tournaments, created by chat",
+    title: "Greppa — Run your pickleball tournament from WhatsApp",
     description:
-      "Create a tournament in minutes through a guided chat, then manage players, matches, and facilities from one place.",
+      "Text Greppa to create a tournament, share a public page, and get brackets and a court schedule built for you.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Greppa — Pickleball tournaments, created by chat",
+    title: "Greppa — Run your pickleball tournament from WhatsApp",
     description:
-      "Create a tournament in minutes through a guided chat, then manage players, matches, and facilities from one place.",
+      "Text Greppa to create a tournament, share a public page, and get brackets and a court schedule built for you.",
   },
 };
 

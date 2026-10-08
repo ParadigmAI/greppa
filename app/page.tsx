@@ -4,13 +4,15 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { Hero } from "@/components/sections/Hero";
+import { HowItWorks } from "@/components/sections/HowItWorks";
 import { Zone } from "@/components/sections/Zone";
 import {
-  BracketVisual,
-  ChatBuildVisual,
-  FacilityVisual,
+  CreationVisual,
+  DrawsVisual,
   PublicPageVisual,
+  RegistrationVisual,
   RoadmapVisual,
+  ScheduleVisual,
 } from "@/components/sections/visuals";
 
 export default function Home() {
@@ -23,31 +25,34 @@ export default function Home() {
         <Hero />
 
         <CourtLineDivider label="Non-Volley Zone" />
+        <HowItWorks />
+
         <Zone
-          id="creation"
-          tone="light"
-          title="Tournament Creation"
-          tagline="Describe it. Watch it build itself."
-          body="Skip the twelve-tab spreadsheet. Tell Greppa what you're running and it asks exactly what it needs — format, divisions, dates — then assembles a real tournament while you chat."
+          id="create"
+          tone="dark"
+          title="Make me a tournament."
+          tagline="Say it in a message. It's done."
+          body="Tell Greppa what you want to run. It only asks for what's missing, like a name and a date, then suggests divisions. Say “looks good” and your tournament is live with a link players can use right away."
           bullets={[
-            "Guided, conversational setup — no blank forms",
-            "Formats, divisions, and seeding handled for you",
-            "A full tournament, ready in minutes",
+            "Set up by chat, on WhatsApp or the web",
+            "Asks one or two questions at a time",
+            "Suggests divisions you can accept or change",
+            "A live, shareable link the moment it's created",
           ]}
-          visual={<ChatBuildVisual />}
+          visual={<CreationVisual />}
         />
 
         <CourtLineDivider label="Courtside" />
         <Zone
-          id="publish"
-          tone="dark"
-          title="Tournament Registration"
-          tagline="A live page, the moment it's built."
-          body="As soon as your tournament is created, Greppa publishes a public page for it — share the link and let players take it from there."
+          id="page"
+          tone="light"
+          title="A public page, shared in one tap."
+          tagline="Restyle it by chat."
+          body="Every tournament gets a mobile-first page with the dates, location, divisions and a countdown. Ask for a new look in plain words, then share it to your club's group chat on WhatsApp with one tap."
           bullets={[
-            "A shareable public page, live the moment you create the tournament",
-            "Players pick their division and register themselves",
-            "Payments collected online at signup",
+            "Built for phones, live from the moment you create it",
+            "Restyle it by chat: “make it feel like a sunset beach”",
+            "One-tap share on WhatsApp, or copy the link",
           ]}
           visual={<PublicPageVisual />}
           reverse
@@ -55,42 +60,57 @@ export default function Home() {
 
         <CourtLineDivider label="At the Net" />
         <Zone
-          id="management"
-          tone="light"
-          title="Tournament Management"
-          tagline="Run the whole event from one screen."
-          body="Once the serve is in, Greppa stays with you through the whole match. Brackets update live, courts stay assigned, and results flow through without a whiteboard in sight."
+          id="registration"
+          tone="dark"
+          title="Players sign up. You just ask."
+          tagline="Full division? They're waitlisted."
+          body="Players pick a division and register on your page in under a minute. Ask Greppa how it's going whenever you like and it tells you: teams in, who's waiting, which divisions are full."
           bullets={[
-            "Live brackets and match scheduling",
-            "Court assignments that update themselves",
-            "Scores, standings, and results in real time",
-            "A registration & payments dashboard — who's in, what's paid, what you've earned",
+            "Players register themselves on the public page",
+            "Full divisions fill a waitlist automatically",
+            "Check numbers with a message, no spreadsheet",
           ]}
-          visual={<BracketVisual />}
+          visual={<RegistrationVisual />}
         />
 
-        <CourtLineDivider label="The Sidelines" />
+        <CourtLineDivider label="The Draw" />
         <Zone
-          id="facilities"
-          tone="dark"
-          title="Facility & Utility Management"
-          tagline="Your courts, your equipment, one dashboard."
-          body="Greppa doesn't stop at tournament day. Track court utilization, plan maintenance, and manage the resources that keep a facility running."
+          id="draws"
+          tone="light"
+          title="Pools & brackets, built."
+          tagline="One message builds every division."
+          body="When registration closes, Greppa seeds the teams by rating, splits big divisions into balanced pools with playoffs, and picks the right format for the smaller ones. Publish it and players see their draw instantly."
           bullets={[
-            "Court scheduling and utilization tracking",
-            "Maintenance and resource planning",
-            "A foundation for full facility operations",
+            "Seeded by rating, no drawing names from a hat",
+            "Pools into playoffs, single or double elimination, round robin",
+            "Hidden until you publish, then visible to players",
           ]}
-          visual={<FacilityVisual />}
+          visual={<DrawsVisual />}
           reverse
+        />
+
+        <CourtLineDivider label="Court Time" />
+        <Zone
+          id="schedule"
+          tone="dark"
+          title="A schedule that adapts."
+          tagline="Rain? One message re-plans the day."
+          body="Tell Greppa how many courts you have and when you play, and the full timetable appears: nobody double-booked, everyone gets rest between matches. When something changes, it shifts only what has to move."
+          bullets={[
+            "A full court-by-time timetable from one message",
+            "No double-booking, built-in rest between matches",
+            "Rain delay or a court out? Re-planned with minimal changes",
+            "Players see the new times",
+          ]}
+          visual={<ScheduleVisual />}
         />
 
         <CourtLineDivider label="Out of Bounds" />
         <Zone
           id="roadmap"
           tone="light"
-          title="What's Next"
-          body="Tournament creation and management are just the serve. Here's what's on the court behind it."
+          title="What's next."
+          body="Tournament setup, registration, draws and scheduling are the serve. Here's what's coming behind them."
           visual={<RoadmapVisual />}
         />
 

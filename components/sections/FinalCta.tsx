@@ -14,17 +14,17 @@ export function FinalCta() {
       <div className="relative mx-auto flex max-w-2xl flex-col items-center">
         <Reveal>
           <span className="font-serif text-xs tracking-[0.06em] text-lime sm:text-sm">
-            Second serve
+            Pickleball, organized.
           </span>
         </Reveal>
         <Reveal delay={0.08}>
           <h2 className="mt-4 text-balance font-serif text-4xl font-bold leading-[1.04] tracking-[-0.03em] text-cream sm:text-6xl">
-            Ready for your second serve?
+            Start your next tournament from WhatsApp.
           </h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p className="mt-5 max-w-md text-balance text-base text-cream-dim sm:text-lg">
-            Join the waitlist and be one of the first organizers to run a tournament on Greppa.
+            Join the waitlist and be one of the first organizers to run a tournament by chat.
           </p>
         </Reveal>
         <Reveal delay={0.24} className="mt-9">
