@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   description:
     "Greppa is the pickleball tournament platform that starts with a conversation. Create a tournament by chatting it into existence, then manage players, courts, and facilities from one place. Join the waitlist.",
   metadataBase: new URL("https://greppa.org"),
+  other: {
+    "facebook-domain-verification": "8e03e8hk7r74eesfpvpzvkr102n992",
+  },
   openGraph: {
     title: "Greppa — Pickleball tournaments, created by chat",
     description:
