@@ -4,6 +4,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useWaitlist } from "./WaitlistProvider";
 
+const FORMSPREE_ENDPOINT = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT;
+
 type Status = "idle" | "submitting" | "success" | "error";
 
 export function WaitlistModal() {
@@ -48,13 +50,25 @@ export function WaitlistModal() {
 
     if (!email) return;
 
+    // Honeypot: real users never see or fill this field.
+    if ((form.elements.namedItem("_gotcha") as HTMLInputElement | null)?.value) {
+      setStatus("success");
+      return;
+    }
+
+    if (!FORMSPREE_ENDPOINT) {
+      setStatus("error");
+      setErrorMessage("Signups aren't available right now. Please try again later.");
+      return;
+    }
+
     setStatus("submitting");
     setErrorMessage("");
 
     try {
-      const res = await fetch("/api/waitlist", {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({ email, name: name || undefined }),
       });
 
@@ -153,6 +167,15 @@ export function WaitlistModal() {
                         className="rounded-xl border border-cream-dim bg-white/5 px-4 py-3 text-cream placeholder:text-cream-dim/60 outline-none transition focus:border-lime focus:bg-white/[0.07]"
                       />
                     </div>
+
+                    <input
+                      type="text"
+                      name="_gotcha"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      aria-hidden
+                      className="hidden"
+                    />
 
                     {status === "error" && (
                       <p className="text-sm text-red-300">{errorMessage}</p>

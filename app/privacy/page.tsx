@@ -65,7 +65,7 @@ export default function PrivacyPage() {
 
           <Section title="How your information is stored">
             <p>
-              Waitlist information is stored securely and is accessible only to the Greppa team.
+              Waitlist information is collected through Formspree, a third-party form service, and is accessible only to the Greppa team.
             </p>
           </Section>
 

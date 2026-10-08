@@ -1,7 +1,7 @@
 # Plan: Greppa Waitlist Landing Page (Phase 1)
 
-Status: Built — verified locally (dev + production build + Docker). Not yet deployed to EC2.
-Owner: miranthaj@gmail.com
+Status: Built. **Superseded on 2026-10-08:** hosting moved from Docker/EC2/SQLite to GitHub Pages + Formspree (see CLAUDE.md, Deployment model). The Docker/EC2/SQLite details below are historical.
+Owner: Greppa team
 Related: [[CLAUDE.md]] for full product context and brand direction
 
 ## 1. Goal

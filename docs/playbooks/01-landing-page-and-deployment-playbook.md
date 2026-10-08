@@ -365,3 +365,22 @@ needed to satisfy Next's own lint rule against it).
   tradeoff, a reason an alternative was rejected). A future session (or a
   future you) shouldn't have to re-derive context that's already been
   worked out once.
+
+## 6. Alternative: static export on GitHub Pages + a form service
+
+If the site is pure marketing with an email-capture form, a server is overkill. The
+simpler path that replaced the EC2/Docker setup in the project this playbook came from:
+
+- Next.js `output: "export"` (+ `trailingSlash: true`, `images.unoptimized: true`); delete
+  all API routes and server-only dependencies.
+- Post the form from the browser to a form service (Formspree etc.) with
+  `Accept: application/json`; add a hidden honeypot field. The endpoint is public, so pass it
+  as a `NEXT_PUBLIC_` env var (in CI, from a repository *variable*, not a secret).
+- Deploy with a GitHub Actions workflow (`upload-pages-artifact` + `deploy-pages`), Pages
+  source set to "GitHub Actions". Put the domain in `public/CNAME`.
+- GitHub Pages on a private repo needs a paid plan; a public repo is free. Before making a
+  repo public, scrub account IDs/IPs/emails from docs (git history keeps old copies).
+- DNS: four `A` records on the apex (185.199.108.153, .109.153, .110.153, .111.153) and a
+  `CNAME` for `www` to `<owner>.github.io`. Enable "Enforce HTTPS" once the cert is issued.
+  Don't touch MX/SPF/DKIM/DMARC records when editing apex records.
+- Clear `.next/` after deleting routes, or stale generated types fail the type-check.

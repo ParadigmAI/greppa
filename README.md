@@ -7,50 +7,28 @@ the plan behind this phase.
 
 ## Stack
 
-Next.js (App Router, TypeScript) + Tailwind CSS + Framer Motion, with waitlist
-signups stored in SQLite (`better-sqlite3`).
+Next.js (App Router, TypeScript, static export) + Tailwind CSS + Framer Motion. Waitlist
+signups are posted to [Formspree](https://formspree.io). Hosted on GitHub Pages at
+<https://greppa.org>.
 
 ## Local development
 
 ```bash
 npm install
+cp .env.example .env.local   # set NEXT_PUBLIC_FORMSPREE_ENDPOINT
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000). `npm run build` writes the static
+site to `out/`.
 
-Waitlist signups write to `data/waitlist.db` (git-ignored) relative to the
-working directory.
+## Deployment
 
-## Environment variables
+Every push to `main` runs `.github/workflows/pages.yml`, which builds the site and
+publishes it to GitHub Pages. The Formspree endpoint comes from the repository
+**variable** `FORMSPREE_ENDPOINT` (Settings → Secrets and variables → Actions →
+Variables); it's a public URL, not a secret. `public/CNAME` sets the custom domain.
 
-Copy `.env.example` to `.env.local` for local dev (or `.env` for Docker):
-
-- `WAITLIST_EXPORT_PASSWORD` — password for the basic-auth-protected CSV export at
-  `GET /api/waitlist/export` (send as `Authorization: Basic <base64(any:password)>`,
-  or `curl -u x:<password> .../api/waitlist/export`).
-- `WAITLIST_DB_PATH` — override the SQLite file location (defaults to
-  `./data/waitlist.db`; the Docker image sets this to `/app/data/waitlist.db`).
-- `GMAIL_USER` / `GMAIL_APP_PASSWORD` — Gmail SMTP credentials used to email a
-  notification on each waitlist signup. `GMAIL_APP_PASSWORD` is a 16-character
-  [App Password](https://myaccount.google.com/apppasswords) (not the account's
-  regular password; requires 2-Step Verification). Left unset, signups still
-  work — the app just skips sending and logs a warning.
-- `NOTIFY_EMAIL` — who receives the signup notification. Defaults to
-  `GMAIL_USER` if unset.
-
-## Production build
-
-```bash
-npm run build
-node .next/standalone/server.js
-```
-
-## Docker
-
-```bash
-cp .env.example .env   # then edit WAITLIST_EXPORT_PASSWORD
-docker compose up -d --build
-```
-
-See [`DEPLOY.md`](./DEPLOY.md) for the full EC2 deployment procedure.
+DNS (at the registrar): four `A` records on `@` pointing to GitHub Pages
+(`185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`) and a
+`CNAME` for `www` pointing to `<org>.github.io`.
