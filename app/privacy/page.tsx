@@ -67,6 +67,9 @@ export default function PrivacyPage() {
             <p>
               Waitlist information is collected through Formspree, a third-party form service, and is accessible only to the Greppa team.
             </p>
+            <p>
+              Our home page embeds a video from YouTube (using YouTube&apos;s privacy-enhanced mode). Playing the video may cause YouTube to collect data under its own privacy policy.
+            </p>
           </Section>
 
           <Section title="Your rights">
