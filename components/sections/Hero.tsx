@@ -1,5 +1,4 @@
 import { WaitlistButton } from "@/components/waitlist/WaitlistButton";
-import { WhatsAppLogo } from "@/components/whatsapp/WhatsAppLogo";
 
 const VIDEO_ID = "NwjgDg1nfiw";
 
@@ -8,16 +7,11 @@ export function Hero() {
     <section id="top" className="relative flex min-h-[60svh] items-center bg-navy px-[7%] py-24 sm:py-28">
       <div className="grid w-full items-center gap-10 xl:grid-cols-[1fr_1.1fr] xl:gap-14">
         <div className="max-w-2xl">
-          <p className="mb-3 flex items-center gap-2.5 font-serif text-xl font-bold tracking-[-0.02em] text-lime sm:text-2xl">
-            <WhatsAppLogo size={28} />
-            Meet Greppa, on WhatsApp
-          </p>
           <h1 className="font-serif text-[clamp(2rem,5vw,3.25rem)] font-bold leading-[1.08] tracking-[-0.03em] text-cream">
-            Run your whole pickleball tournament from a chat.
+            Your pickleball tournament manager, right on your phone.
           </h1>
           <p className="mt-5 max-w-md text-base leading-relaxed text-cream-dim sm:text-lg">
-            Text Greppa what you want. It sets up the tournament, builds the brackets and plans the
-            court schedule.
+            From “let’s run a tournament” to game day, Greppa sets it up, takes registrations, draws the brackets and builds the schedule.
           </p>
           <div className="mt-8">
             <WaitlistButton>Join Waitlist</WaitlistButton>
