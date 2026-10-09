@@ -4,7 +4,7 @@ const VIDEO_ID = "NwjgDg1nfiw";
 
 export function Hero() {
   return (
-    <section id="top" className="relative flex min-h-[60svh] items-center bg-navy px-[7%] py-24 sm:py-28">
+    <section id="top" className="relative flex min-h-[60svh] items-center bg-navy px-[7%] pb-24 pt-36 sm:pb-28 sm:pt-44">
       <div className="grid w-full items-center gap-10 xl:grid-cols-[1fr_1.1fr] xl:gap-14">
         <div className="max-w-2xl">
           <h1 className="font-serif text-[clamp(2rem,5vw,3.25rem)] font-bold leading-[1.08] tracking-[-0.03em] text-cream">
