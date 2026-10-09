@@ -34,48 +34,24 @@ export default function PrivacyPage() {
           <Section title="Who we are">
             <p>
               Greppa (&ldquo;we,&rdquo; &ldquo;us,&rdquo; &ldquo;our&rdquo;) operates greppa.org
-              (the &ldquo;Site&rdquo;). This policy explains what information we collect when you
-              visit the Site or join our waitlist, and how we use it.
+              (the &ldquo;Site&rdquo;), a marketing site for the Greppa app at app.greppa.org.
             </p>
           </Section>
 
           <Section title="Information we collect">
-            <p>The Site currently collects only what&apos;s needed to join the waitlist:</p>
-            <ul className="flex flex-col gap-2 pl-5">
-              <li className="list-disc">
-                <strong>Email address</strong> — required to join the waitlist.
-              </li>
-              <li className="list-disc">
-                <strong>Name</strong> — optional, only if you choose to provide it.
-              </li>
-            </ul>
             <p>
-              The Site does not yet offer a live product, and we don&apos;t collect payment
-              information or any other personal data beyond what&apos;s listed above.
+              The Site itself doesn&apos;t collect personal information: it has no forms, accounts
+              or tracking cookies. When you choose &ldquo;Get started for free,&rdquo; you leave
+              the Site for the Greppa app, where creating an account and using the product are
+              covered by the app&apos;s own privacy policy.
             </p>
           </Section>
 
-          <Section title="How we use your information">
+          <Section title="Third-party content">
             <p>
-              We use your email address to let you know when Greppa becomes available and to
-              share occasional updates about the product. We don&apos;t sell your information to
-              third parties, and we don&apos;t use it for advertising.
-            </p>
-          </Section>
-
-          <Section title="How your information is stored">
-            <p>
-              Waitlist information is collected through Formspree, a third-party form service, and is accessible only to the Greppa team.
-            </p>
-            <p>
-              Our home page embeds a video from YouTube (using YouTube&apos;s privacy-enhanced mode). Playing the video may cause YouTube to collect data under its own privacy policy.
-            </p>
-          </Section>
-
-          <Section title="Your rights">
-            <p>
-              You can ask us to remove your information from the waitlist at any time by
-              contacting us using the details below.
+              Our home page embeds a video from YouTube (using YouTube&apos;s privacy-enhanced
+              mode). Playing the video may cause YouTube to collect data under its own privacy
+              policy.
             </p>
           </Section>
 

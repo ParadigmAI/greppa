@@ -34,21 +34,14 @@ export default function TermsPage() {
 
           <Section title="About this Site">
             <p>
-              Greppa is building a pickleball tournament creation and management platform. This
-              Site is currently a pre-launch waitlist — it does not yet provide the product or
-              services it describes. By using the Site, you agree to these Terms.
-            </p>
-          </Section>
-
-          <Section title="Joining the waitlist">
-            <p>
-              Joining the waitlist is free and doesn&apos;t create any contractual obligation
-              between you and Greppa. We&apos;ll use the email address you provide to contact you
-              about the product&apos;s availability and updates — see our{" "}
+              Greppa is a pickleball tournament creation and management platform. This Site
+              describes the product; the product itself is the Greppa app at app.greppa.org. By
+              using the Site, you agree to these Terms. Use of the app is also subject to the
+              terms and privacy policy shown there. See our{" "}
               <Link href="/privacy" className="underline hover:text-lime">
                 Privacy Policy
               </Link>{" "}
-              for details.
+              for how this Site handles information.
             </p>
           </Section>
 

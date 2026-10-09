@@ -24,7 +24,7 @@ From that foundation, the product is meant to expand outward into a broader suit
 - **Guided workflows** — helping users (organizers, facility operators) navigate decisions they don't have expertise in
 - **Supply chain / vendor integrations** — plugging in equipment, balls, nets, and other supply needs directly into the platform (future extension)
 
-This is a phased build. Phase 1 (current) is **not the app itself** — it's a marketing landing page to validate interest and build a waitlist ahead of building the real product.
+This is a phased build. Phase 1 was the marketing landing page; as of 2026-10-09 the first version of the app is live at **app.greppa.org** and this site (greppa.org) funnels visitors to it. The waitlist is retired.
 
 ## Brand
 
@@ -37,20 +37,19 @@ This is a phased build. Phase 1 (current) is **not the app itself** — it's a m
 - **Design ambition:** should look genuinely uncommon — not a template SaaS landing page. Concept: scrolling through the page feels like moving through different zones of a pickleball court (baseline → kitchen/non-volley zone → net → far court, etc.), with a pickleball motif that visually guides the user down the page (e.g., a ball that travels/bounces along the scroll path, court lines that animate in as dividers between sections).
 - This is a distinctive, motion-forward, court-textured design — not corporate-flat.
 
-## Phase 1 scope: Waitlist landing page
+## Marketing site scope
 
-- **Pure marketing site.** No real app functionality, no auth, no backend logic beyond capturing waitlist signups.
-- **Primary CTA:** "Join Waitlist"
-- Clicking the CTA opens a small form: **email required, name optional**, submit button. That's the entire conversion flow.
-- Content should communicate the gist of the product: tournament creation (chat-based), tournament management, player management, facility/utility management, and the broader vision (guided workflows, supply chain plug-ins) as "coming" framing.
-- Visual experience should follow the court-journey concept described above under Brand.
+- **Pure marketing site** for the product at `app.greppa.org`. No forms, no auth, no backend.
+- **Primary CTA:** "Get started for free" (header: "Get started") → `https://app.greppa.org/sign-up` (constant `APP_SIGNUP_URL` in `components/GetStartedButton.tsx`). The app's own landing page offers get started / sign in.
+- Content communicates the WhatsApp-first v1 feature set (see the script referenced above) and a "What's next" roadmap.
+- Visual experience follows the court-journey concept under Brand.
 
-See `docs/plans/` for the detailed execution plan for this phase.
+See `docs/plans/` for the original (now historical) Phase 1 plan.
 
 ## Deployment model
 
 - **Static site on GitHub Pages**, served at `https://greppa.org`. The app is a Next.js static export (`output: "export"`); a GitHub Actions workflow (`.github/workflows/pages.yml`) builds and deploys on every push to `main`. The repo lives in the `ParadigmAI` GitHub org and is public.
-- **No server, no database, no Docker.** Waitlist submissions are POSTed straight from the browser to **Formspree**. The endpoint is a public URL supplied at build time via the repo Actions *variable* `FORMSPREE_ENDPOINT` (exposed to the app as `NEXT_PUBLIC_FORMSPREE_ENDPOINT`).
+- **No server, no database, no Docker, no forms.** The site collects nothing; the CTA links out to the app at `app.greppa.org` (a separate deployment, not in this repo). Formspree was removed with the waitlist on 2026-10-09 (the leftover `FORMSPREE_ENDPOINT` repo variable can be deleted).
 - `public/CNAME` pins the custom domain. DNS lives at GoDaddy: four `A` records on `@` to GitHub Pages' IPs plus a `www` CNAME to the org's `github.io` host (exact values in `README.md`). Email DNS records (Google Workspace) are unrelated and must be left alone.
 - Because the repo is public, never commit secrets, infra identifiers, or personal data to it. Keep `docs/` and this file free of account IDs, IPs, and credentials.
 
@@ -60,8 +59,8 @@ See `docs/plans/` for the detailed execution plan for this phase.
 - `docs/deploy/` — deployment history/notes. The AWS EC2 setup was decommissioned on migration to GitHub Pages; keep identifiers out of here (public repo).
 - `docs/playbooks/` — product-agnostic, portable methodology docs distilled from this project, written so they can be handed to a *different, unrelated* future project rather than describing Greppa specifically. `01-landing-page-and-deployment-playbook.md` covers the full stack/design/containerization/AWS/DNS approach and every real gotcha hit along the way.
 - `app/` — Next.js App Router. `page.tsx` assembles the landing page from `components/sections/`; the app is a fully static export (no API routes).
-- `components/` — `sections/` (the 8 court-journey zones + their visuals), `waitlist/` (context, button, modal — the join-waitlist flow used across the page), plus shared pieces (`CourtLineDivider`, `CourtBackdrop`, `Reveal`, `StickyNav`, `Footer`).
-- `.github/workflows/pages.yml` / `public/CNAME` / `.env.example` — GitHub Pages deploy, custom domain, and the Formspree endpoint variable, per the Deployment model above.
+- `components/` — `sections/` (the 8 court-journey zones + their visuals), `whatsapp/` (PhoneChat, logo), `GetStartedButton` (the CTA link to the app), plus shared pieces (`CourtLineDivider`, `CourtBackdrop`, `Reveal`, `StickyNav`, `Footer`).
+- `.github/workflows/pages.yml` / `public/CNAME` — GitHub Pages deploy and custom domain, per the Deployment model above.
 - Stack: Next.js 16 (App Router, Turbopack, TypeScript) + Tailwind CSS v4 + Framer Motion. `AGENTS.md` at the repo root is auto-generated by Next.js and points at version-matched docs in `node_modules/next/dist/docs/` — read it before assuming any Next.js API from training knowledge, since v16 changed things (Turbopack by default, fully-async request APIs, etc).
 
 ## Status log
@@ -85,3 +84,4 @@ See `docs/plans/` for the detailed execution plan for this phase.
 - 2026-10-08 — **Landing page rewritten around the WhatsApp-first v1** (driven by the product's video script, `docs/tutorials/whatsapp-flow-video-script.html`). New structure: Hero ("Run your whole pickleball tournament from a chat", WhatsApp logo eyebrow, intro video) → How it works (sign up → scan QR → just chat) → Create → Public page (restyle by chat, one-tap WhatsApp share) → Registration (ask for numbers, auto waitlist) → Brackets (seeded pools/playoffs, publish) → Schedule (courts+hours in, timetable out, rain re-plan) → What's next → Final CTA ("Start your next tournament from WhatsApp"). Every chat graphic is now a `PhoneChat` (`components/whatsapp/`) styled as a real WhatsApp dark-mode chat (header, ticks, quick-reply buttons, input bar, WhatsApp logo) using the script's dialogue verbatim, with a small "illustrative" caption because these are recreations, not screenshots; each phone has a companion result card (tournament card, sunset-themed public page, registration bars, pool draw, timetable grid) in `components/sections/visuals.tsx`. Nav is now Create / Public page / Registration / Brackets / Schedule. **Removed claims that aren't built:** online payments, live scores/standings, and the Facility & Utility zone (facilities, payments, scores and equipment ordering now live only in "What's next" as coming soon). The WhatsApp logo is a hand-drawn SVG approximation (`WhatsAppLogo.tsx`) — before launch, swap it for Meta's official asset and check Meta's brand guidelines for how a third-party may reference WhatsApp. Page metadata/OG text updated to the WhatsApp positioning. Verified at 320–1440px: no horizontal overflow.
 - 2026-10-08 — **`docs/tutorials/` is intentionally NOT committed** (this repo is public; it holds unreleased product screenshots and a PDF, and the script says the screenshots contain demo data/localhost). Stage files explicitly (`git add <paths>`), not `git add -A`, while that folder is untracked.
 - 2026-10-09 — Hero copy changed to not mention WhatsApp: no eyebrow; h1 "Your pickleball tournament manager, right on your phone."; subtext "From \"let's run a tournament\" to game day, Greppa sets it up, takes registrations, draws the brackets and builds the schedule." Page title/description/OG text updated to match. The rest of the page (How it works, phone chats) still references WhatsApp.
+- 2026-10-09 — **Waitlist retired; first app version is live at app.greppa.org** (it has a landing page with get started → `/sign-up` and sign in → `/sign-in`, both verified 200). Every CTA (hero, header, final CTA) is now `GetStartedButton`, an `<a>` to the app's sign-up ("Get started for free"; header says "Get started"). Deleted `components/waitlist/*`, the Formspree wiring, `.env.example` and the workflow's endpoint env var. Privacy/Terms rewritten: the marketing site collects no personal data, and the app's own policies govern accounts. Final CTA copy no longer mentions a waitlist. The Facebook verification meta tag stays.

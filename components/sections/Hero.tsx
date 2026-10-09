@@ -1,4 +1,4 @@
-import { WaitlistButton } from "@/components/waitlist/WaitlistButton";
+import { GetStartedButton } from "@/components/GetStartedButton";
 
 const VIDEO_ID = "NwjgDg1nfiw";
 
@@ -14,7 +14,7 @@ export function Hero() {
             From “let’s run a tournament” to game day, Greppa sets it up, takes registrations, draws the brackets and builds the schedule.
           </p>
           <div className="mt-8">
-            <WaitlistButton>Join Waitlist</WaitlistButton>
+            <GetStartedButton />
           </div>
         </div>
 

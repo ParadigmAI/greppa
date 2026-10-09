@@ -1,5 +1,5 @@
 import { Reveal } from "@/components/Reveal";
-import { WaitlistButton } from "@/components/waitlist/WaitlistButton";
+import { GetStartedButton } from "@/components/GetStartedButton";
 
 export function FinalCta() {
   return (
@@ -24,11 +24,11 @@ export function FinalCta() {
         </Reveal>
         <Reveal delay={0.16}>
           <p className="mt-5 max-w-md text-balance text-base text-cream-dim sm:text-lg">
-            Join the waitlist and be one of the first organizers to run a tournament by chat.
+            Free to start. Create your first tournament in minutes.
           </p>
         </Reveal>
         <Reveal delay={0.24} className="mt-9">
-          <WaitlistButton>Join Waitlist</WaitlistButton>
+          <GetStartedButton />
         </Reveal>
       </div>
     </section>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { WaitlistButton } from "./waitlist/WaitlistButton";
+import { GetStartedButton } from "./GetStartedButton";
 
 const links = [
   { href: "/#create", label: "Create" },
@@ -32,9 +32,9 @@ export function Header() {
           </nav>
 
           <div className="ml-auto">
-            <WaitlistButton size="sm" className="whitespace-nowrap gap-2! px-3! min-[380px]:px-4! sm:gap-6! sm:px-5!">
-              Join the game
-            </WaitlistButton>
+            <GetStartedButton size="sm" className="whitespace-nowrap gap-2! px-3! min-[380px]:px-4! sm:gap-6! sm:px-5!">
+              Get started
+            </GetStartedButton>
           </div>
 
           <button
